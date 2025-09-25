@@ -1,20 +1,6 @@
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
     <div class="flex flex-col gap-2">
-      <label class="text-lg font-bold" for="name">Name</label>
-      <input
-        v-model="form.name"
-        id="name"
-        name="name"
-        type="text"
-        placeholder="Name"
-        class="w-full rounded-md border-2 border-gray-300 p-2"
-      />
-      <span v-if="errors.name" class="text-sm text-red-400">{{
-        errors.name.join(", ")
-      }}</span>
-    </div>
-    <div class="flex flex-col gap-2">
       <label class="text-lg font-bold" for="email">Email</label>
       <input
         v-model="form.email"
@@ -42,27 +28,11 @@
         errors.password.join(", ")
       }}</span>
     </div>
-    <div class="flex flex-col gap-2">
-      <label class="text-lg font-bold" for="password_confirmation"
-        >Password Confirmation</label
-      >
-      <input
-        v-model="form.password_confirmation"
-        id="password_confirmation"
-        name="password_confirmation"
-        type="password"
-        placeholder="Password Confirmation"
-        class="w-full rounded-md border-2 border-gray-300 p-2"
-      />
-      <span v-if="errors.password" class="text-sm text-red-400">{{
-        errors.password.join(", ")
-      }}</span>
-    </div>
     <button
       class="w-full rounded-md bg-blue-500 py-2 px-4 text-white"
       type="submit"
     >
-      Register
+      Login
     </button>
   </form>
 </template>
@@ -71,14 +41,14 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-import { UserRegistration } from "@/services/auth/authService";
+import type { Login } from "@/services/auth/authService";
 import { authService } from "@/services/auth/authService";
 
 import http from "@/services/http";
 
 const router = useRouter();
 
-const form = ref<UserRegistration>({
+const form = ref<Login>({
   name: "",
   email: "",
   password: "",
@@ -88,19 +58,8 @@ const form = ref<UserRegistration>({
 const errors = ref<string[]>([]);
 
 const onSubmit = async () => {
-  const res = await authService.register(form.value);
-
-  if (!res.ok) {
-    errors.value = res.error.response.data.errors;
-    return;
-  }
-
-  login();
-};
-
-const login = async () => {
   const res = await authService.login(form.value);
-  
+
   if (!res.ok) {
     errors.value = res.error.response.data.errors;
     return;

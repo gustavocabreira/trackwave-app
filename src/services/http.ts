@@ -17,7 +17,7 @@ client.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      router.push({ name: 'Login' });
+      return router.push({ name: 'LoginIndex' });
     }
 
     return Promise.reject(error);

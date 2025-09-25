@@ -1,3 +1,4 @@
+import LoginView from "@/views/auth/LoginView.vue";
 import RegisterView from "@/views/auth/RegisterView.vue";
 import Index from "@/views/Index.vue";
 import AppLayout from "@/views/layouts/AppLayout.vue";
@@ -24,6 +25,11 @@ export default [
                 component: RegisterView,
                 name: 'RegisterIndex',
             },
+            {
+                path: 'login',
+                component: LoginView,
+                name: 'LoginIndex',
+            }
         ],
     },
 ];
