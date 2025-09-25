@@ -1,13 +1,23 @@
 <template>
-    <div>App Layout</div>
-    <router-view/>
+  <div>App Layout</div>
+  <router-view />
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import http from '@/services/http';
+import { onMounted } from "vue";
+import http from "@/services/http";
 
-onMounted(() => {
-    http.get('me')
-})
+import { useUserStore } from "@/stores/userStore";
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+  const res = await http.get("me");
+
+  if (!res.ok) {
+    console.log(res.error);
+  }
+
+  userStore.setUser(res.data);
+});
 </script>

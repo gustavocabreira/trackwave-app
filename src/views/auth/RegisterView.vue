@@ -74,8 +74,6 @@ import { useRouter } from "vue-router";
 import { UserRegistration } from "@/services/auth/authService";
 import { authService } from "@/services/auth/authService";
 
-import http from "@/services/http";
-
 const router = useRouter();
 
 const form = ref<UserRegistration>({
