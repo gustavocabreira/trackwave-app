@@ -1,9 +1,29 @@
-import HelloWorld from "../components/HelloWorld.vue";
+import RegisterView from "@/views/auth/RegisterView.vue";
+import Index from "@/views/Index.vue";
+import AppLayout from "@/views/layouts/AppLayout.vue";
+import GuestLayout from "@/views/layouts/GuestLayout.vue";
 
 export default [
     {
         path: '/',
-        component: HelloWorld,
-        name: 'HomePage',
+        component: AppLayout,
+        children: [
+            {
+                path: '',
+                component: Index,
+                name: 'Index',
+            },
+        ],
+    },
+    {
+        path: '/auth',
+        component: GuestLayout,
+        children: [
+            {
+                path: 'register',
+                component: RegisterView,
+                name: 'RegisterIndex',
+            },
+        ],
     },
 ];
