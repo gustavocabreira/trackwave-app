@@ -89,7 +89,7 @@ const onSubmit = async () => {
   const res = await authService.register(form.value);
 
   if (!res.ok) {
-    errors.value = res.error.response.data.errors;
+    errors.value = res.errors.errors;
     return;
   }
 
@@ -100,7 +100,7 @@ const login = async () => {
   const res = await authService.login(form.value);
   
   if (!res.ok) {
-    errors.value = res.error.response.data.errors;
+    errors.value = res.errors.errors;
     return;
   }
 
