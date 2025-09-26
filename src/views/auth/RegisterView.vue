@@ -10,7 +10,7 @@
         placeholder="Name"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.name" class="text-sm text-red-400">{{
+      <span v-if="errors?.name" class="text-sm text-red-400">{{
         errors.name.join(", ")
       }}</span>
     </div>
@@ -24,7 +24,7 @@
         placeholder="Email"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.email" class="text-sm text-red-400">{{
+      <span v-if="errors?.email" class="text-sm text-red-400">{{
         errors.email.join(", ")
       }}</span>
     </div>
@@ -38,7 +38,7 @@
         placeholder="Password"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.password" class="text-sm text-red-400">{{
+      <span v-if="errors?.password" class="text-sm text-red-400">{{
         errors.password.join(", ")
       }}</span>
     </div>
@@ -54,8 +54,8 @@
         placeholder="Password Confirmation"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.password" class="text-sm text-red-400">{{
-        errors.password.join(", ")
+      <span v-if="errors?.password_confirmation" class="text-sm text-red-400">{{
+        errors.password_confirmation.join(", ")
       }}</span>
     </div>
     <button
@@ -83,13 +83,16 @@ const form = ref<UserRegistration>({
   password_confirmation: "",
 });
 
-const errors = ref<string[]>([]);
+const errors = ref<any>(null);
 
 const onSubmit = async () => {
   const res = await authService.register(form.value);
 
   if (!res.ok) {
-    errors.value = res.errors.errors;
+    if(res.errors) {
+      errors.value = res.errors.errors ?? null;
+    }
+
     return;
   }
 
@@ -100,7 +103,10 @@ const login = async () => {
   const res = await authService.login(form.value);
   
   if (!res.ok) {
-    errors.value = res.errors.errors;
+    if(res.errors) {
+      errors.value = res.errors.errors ?? null;
+    }
+
     return;
   }
 

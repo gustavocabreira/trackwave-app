@@ -17,7 +17,6 @@ const logout = async () => {
     const res = await authService.logout();
 
     if (!res.ok) {
-        console.log(res.error);
         return;
     }
 

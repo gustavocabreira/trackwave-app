@@ -4,14 +4,14 @@ import type { User } from '@/types/user';
 
 
 export const useUserStore = defineStore('user', () => {
-    const user = ref<User>({});
+    const user = ref<User>();
 
     function setUser(next: User) {
         user.value = next;
     }
 
-    function getUser(): User {
-        return user.value;
+    function getUser(): User | null {
+        return user.value ?? null;
     }
 
     return {

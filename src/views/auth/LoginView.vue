@@ -10,7 +10,7 @@
         placeholder="Email"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.email" class="text-sm text-red-400">{{
+      <span v-if="errors?.email" class="text-sm text-red-400">{{
         errors.email.join(", ")
       }}</span>
     </div>
@@ -24,7 +24,7 @@
         placeholder="Password"
         class="w-full rounded-md border-2 border-gray-300 p-2"
       />
-      <span v-if="errors.password" class="text-sm text-red-400">{{
+      <span v-if="errors?.password" class="text-sm text-red-400">{{
         errors.password.join(", ")
       }}</span>
     </div>
@@ -44,27 +44,26 @@ import { useRouter } from "vue-router";
 import type { Login } from "@/services/auth/authService";
 import { authService } from "@/services/auth/authService";
 
-import http from "@/services/http";
-
 const router = useRouter();
 
 const form = ref<Login>({
-  name: "",
   email: "",
   password: "",
-  password_confirmation: "",
 });
 
-const errors = ref<string[]>([]);
+const errors = ref<any>(null);
 
 const onSubmit = async () => {
   const res = await authService.login(form.value);
 
   if (!res.ok) {
-    errors.value = res.error.response.data.errors;
+    if (res.errors) {
+      errors.value = res.errors.errors ?? null;
+    }
+
     return;
   }
 
-  router.push({ name: 'Index' });
+  router.push({ name: "Index" });
 };
 </script>

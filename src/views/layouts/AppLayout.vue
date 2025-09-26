@@ -5,17 +5,23 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import http from "@/services/http";
 
 import { useUserStore } from "@/stores/userStore";
+import { userService } from "@/services/userService";
 
 const userStore = useUserStore();
 
 onMounted(async () => {
-  const res = await http.get("me");
+  const res = await userService.getCurrentUser();
+
+  console.log('res', res);
 
   if (!res.ok) {
-    console.log(res.error);
+    console.log(res.errors);
+  }
+
+  if(!res.data) {
+    return;
   }
 
   userStore.setUser(res.data);
