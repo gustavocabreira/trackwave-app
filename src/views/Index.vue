@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h1>Welcome, {{ userStore.getUser()?.name }}!</h1>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="logout">Logout</button>
-    </div>
+  <div>
+    <h1>Welcome, {{ userStore.getUser()?.name }}!</h1>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="logout">Logout</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -14,15 +14,14 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const logout = async () => {
-    const res = await authService.logout();
+  const res = await authService.logout();
 
-    if (!res.ok) {
-        return;
-    }
+  if (!res.ok) {
+    return;
+  }
 
-    router.push({
-        name: 'LoginIndex',
-    })
-}
+  router.push({
+    name: "LoginIndex",
+  });
+};
 </script>
-
