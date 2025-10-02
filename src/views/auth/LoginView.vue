@@ -2,7 +2,7 @@
   <section class="space-y-8 text-center">
     <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
-    <h2 class="text-3xl font-medium">Entrar</h2>
+    <h1 class="text-3xl font-medium">Entrar</h1>
 
     <form @submit.prevent="onSubmit" class="space-y-4 w-md text-start">
       <FormField v-slot="{ componentField }" name="email">
@@ -23,7 +23,7 @@
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit" class="w-full bg-primary"> Entrar </Button>
+      <Button type="submit" class="w-full"> Entrar </Button>
     </form>
 
     <!-- <div class="space-y-4">
@@ -68,7 +68,7 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
   if (!res.ok) {
     if (res.errors?.message) {
       toast.error("Ocorreu um erro!", {
-        description: res.errors?.message[0],
+        description: res.errors?.message,
       });
     }
 
