@@ -25,7 +25,7 @@ type Status = "success" | "expired";
 const route = useRoute();
 const router = useRouter();
 
-const token = route.query?.token;
+const token = route.query?.token as string;
 const status = ref<Status>("expired");
 
 const resendToken = async () => {

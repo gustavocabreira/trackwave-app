@@ -1,6 +1,6 @@
 <template>
   <router-view />
-  <Toaster rich-colors close-button="true" close-button-position="top-right" position="top-right" />
+  <Toaster rich-colors :closeButton="true" close-button-position="top-right" position="top-right" />
 </template>
 
 <script setup lang="ts">

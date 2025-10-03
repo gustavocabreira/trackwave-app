@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { User } from "@/types/user";
 
 export const useUserStore = defineStore("user", () => {
-  const user = ref<User>();
+  const user = ref<User | null>();
 
   function setUser(next: User) {
     user.value = next;
