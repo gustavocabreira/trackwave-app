@@ -3,7 +3,7 @@
     <h1 class="text-3xl font-medium">Bem-vindo!</h1>
     <p>Seu e-mail foi verificado com sucesso, e agora você pode começar a usar a plataforma.</p>
 
-    <Button class="w-full">Ir para o login</Button>
+    <Button class="w-full" @click="router.push({ name: 'LoginIndex' })">Ir para o login</Button>
   </section>
   <section v-else class="text-center space-y-4 w-md">
     <h1 class="text-3xl font-medium">Código de verificação expirado</h1>
