@@ -47,6 +47,6 @@ jobs:
           port: 22
           script: |
             cd /home/deploy/projects/trackwave-app
-            chown -R deploy:deploy ./dist
+            chown -R deploy:deploy .
             cd /home/deploy/projects/trackwave-app/docker/staging
             docker compose up -d --build
