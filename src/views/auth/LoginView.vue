@@ -29,7 +29,7 @@
     <div class="space-y-4">
       <span class="divider font-medium text-accent-foreground before:border-accent after:border-accent">ou</span>
       <div class="flex flex-col items-center gap-3">
-        <Button @click="googleCallback" class="w-full">Continuar com o Google</Button>
+        <Button @click="handleGoogleLogin" class="w-full">Continuar com o Google</Button>
       </div>
     </div>
 
@@ -48,6 +48,7 @@ import { toast } from "vue-sonner";
 import Input from "@/components/ui/input/Input.vue";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
 
@@ -78,18 +79,18 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
   router.push({ name: "Index" });
 });
 
-const googleCallback = async () => {
-  const res = await authService.googleCallback();
+const handleGoogleLogin = async () => {
+  try {
+    const res = await authService.loginWithGoogle();
 
-  console.log('res:', res)
+    const userStore = useUserStore()
+    userStore.setUser(res.data);
+    
+    router.push({ name: "Index" });
 
-  if (!res.ok) {
-    return;
+  } catch (error) {
+    console.error('Falha no login com Google:', error);
   }
-
-  router.push({
-    name: "Index",
-  });
 };
 </script>
 
