@@ -9,7 +9,6 @@ export type UserRegistration = {
   password: string;
   password_confirmation: string;
 };
-
 export type Login = {
   email: string;
   password: string;
@@ -38,5 +37,13 @@ export const authService = {
   },
   async logout(): Promise<ApiResponse<null>> {
     return await http.request<null>("POST", "/auth/logout");
+  },
+  async googleCallback(): Promise<ApiResponse<User>> {
+    // await axios.get(import.meta.env.VITE_API_URL + "/sanctum/csrf-cookie", {
+    //   withCredentials: true,
+    //   withXSRFToken: true,
+    // });
+
+    return await axios.get("http://localhost:8080/api/auth/google");
   },
 };
