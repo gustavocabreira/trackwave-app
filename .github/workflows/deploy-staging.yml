@@ -57,4 +57,5 @@ jobs:
             cd /home/deploy/projects/trackwave-app
             chown -R deploy:deploy .
             cd /home/deploy/projects/trackwave-app/docker/staging
+            docker compose down
             docker compose up -d --build
