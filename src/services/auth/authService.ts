@@ -38,38 +38,7 @@ export const authService = {
   async logout(): Promise<ApiResponse<null>> {
     return await http.request<null>("POST", "/auth/logout");
   },
-  async loginWithGoogle(): Promise<{ data: { access_token: string } }> {
-    return new Promise((resolve, reject) => {
-      const popup = window.open(`${import.meta.env.VITE_API_URL}/api/auth/google`, 'google-login', 'width=500,height=600');
-
-      const handle = (event: MessageEvent) => {
-        if (event.origin !== import.meta.env.VITE_API_URL) {
-          return;
-        }
-
-        window.removeEventListener('message', handle);
-        popup?.close();
-
-        if (event.data.error) {
-          reject(new Error(event.data.error));
-        } else if (event.data.token) {
-          resolve({ data: {
-              access_token: event.data.token 
-            }
-          })
-        }
-      };
-
-      window.addEventListener('message', handle);
-
-      const interval = setInterval(() => {
-        if (popup?.closed) {
-          clearInterval(interval);
-          window.removeEventListener('message', handle);
-          reject(new Error('The window was closed.'));
-        }
-      }, 500);
-    })
-
+  loginWithGoogle(): void {
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/redirect`;
   }
 };

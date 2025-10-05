@@ -48,7 +48,6 @@ import { toast } from "vue-sonner";
 import Input from "@/components/ui/input/Input.vue";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
 
@@ -81,11 +80,7 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
 
 const handleGoogleLogin = async () => {
   try {
-    const res = await authService.loginWithGoogle();
-
-    const userStore = useUserStore()
-    userStore.setUser(res.data);
-    
+    authService.loginWithGoogle();
     router.push({ name: "Index" });
 
   } catch (error) {
