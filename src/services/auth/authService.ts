@@ -39,6 +39,6 @@ export const authService = {
     return await http.request<null>("POST", "/auth/logout");
   },
   loginWithGoogle(): void {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/redirect`;
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/redirect`;
   }
 };
