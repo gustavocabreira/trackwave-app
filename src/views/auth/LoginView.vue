@@ -26,12 +26,12 @@
       <Button type="submit" class="w-full"> Entrar </Button>
     </form>
 
-    <!-- <div class="space-y-4">
+    <div class="space-y-4">
       <span class="divider font-medium text-accent-foreground before:border-accent after:border-accent">ou</span>
       <div class="flex flex-col items-center gap-3">
-        <Button class="w-full">Continuar com o Google</Button>
+        <Button @click="handleGoogleLogin" class="w-full">Continuar com o Google</Button>
       </div>
-    </div> -->
+    </div>
 
     <p>Ainda não possui cadastro? <span @click="router.push({ name: 'RegisterIndex' })" class="underline cursor-pointer">Crie uma conta</span></p>
   </section>
@@ -77,6 +77,16 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
 
   router.push({ name: "Index" });
 });
+
+const handleGoogleLogin = async () => {
+  try {
+    authService.loginWithGoogle();
+    router.push({ name: "Index" });
+
+  } catch (error) {
+    console.error('Falha no login com Google:', error);
+  }
+};
 </script>
 
 <style scoped>
