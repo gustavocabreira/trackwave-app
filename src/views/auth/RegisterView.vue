@@ -1,14 +1,5 @@
 <template>
-  <section v-if="verifyEmail" class="text-center space-y-4 w-md">
-    <h1 class="text-3xl font-medium">Verifique seu e-mail</h1>
-    <div>
-      <p>
-        Enviamos um e-mail de verificação para <b>{{ email }} </b>.
-      </p>
-      <p>Clique no link no e-mail para verificar sua conta.</p>
-    </div>
-  </section>
-  <section v-else class="space-y-8 text-center">
+  <section class="space-y-8 text-center">
     <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
     <h1 class="text-3xl font-medium">Crie sua conta</h1>
@@ -93,8 +84,6 @@ type ShowPassword = {
 
 const router = useRouter();
 
-const verifyEmail = ref<boolean>(false);
-const email = ref<string>("");
 const showPassword = ref<ShowPassword>({
   inputType: "password",
   visible: false,
@@ -144,9 +133,17 @@ const onSubmit = form.handleSubmit(async (values: UserRegistration) => {
     return;
   }
 
-  verifyEmail.value = true;
-  email.value = values.email;
+  login(values.email, values.password);
 });
+
+const login = async (email: string, password: string) => {
+  await authService.login({
+    email,
+    password,
+  });
+
+  router.push({ name: "Index" });
+};
 
 const togglePassword = () => {
   showPassword.value.inputType = showPassword.value.inputType === "password" ? "text" : "password";

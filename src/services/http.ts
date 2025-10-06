@@ -30,12 +30,13 @@ client.interceptors.response.use(
 export const http = {
   async request<T>(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", url: string, payload?: any): Promise<ApiResponse<T>> {
     try {
-      const { data } = await client.request({ method, url, data: payload });
+      const { data, status } = await client.request({ method, url, data: payload });
 
       return {
         ok: true,
         data,
         errors: null,
+        status,
       };
     } catch (error: any) {
       const errors = error?.response?.data ?? {
@@ -43,7 +44,7 @@ export const http = {
         errors: {},
       };
 
-      return { ok: false, data: null, errors, status: error.status };
+      return { ok: false, data: null, errors, status: error?.status };
     }
   },
 };

@@ -44,7 +44,7 @@ export default [
         path: "",
         component: EmailVerificationView,
         name: "EmailVerificationIndex",
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: true },
       },
     ],
   },
