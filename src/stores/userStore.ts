@@ -7,9 +7,9 @@ import { useRouter } from "vue-router";
 export const useUserStore = defineStore("user", () => {
   const router = useRouter();
 
-  const user = ref<User | null>();
+  const user = ref<User | null>(null);
 
-  function setUser(next: User) {
+  function setUser(next: User | null) {
     user.value = next;
   }
 
@@ -32,9 +32,9 @@ export const useUserStore = defineStore("user", () => {
     }
 
     if (res.ok && res.data) {
-      user.value = res.data;
+      setUser(res.data);
     } else {
-      user.value = null;
+      setUser(null);
     }
 
     return res;

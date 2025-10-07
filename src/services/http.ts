@@ -1,7 +1,9 @@
 import axios from "axios";
-import router from "@/router";
 
-export type ValidationErrors = Record<string, string[]>;
+export type ValidationErrors = {
+  message?: string;
+  [key: string]: string[] | string | undefined;
+};
 export type ApiResponse<T> = { ok: boolean; data: T | null; errors: ValidationErrors | null; status?: number };
 
 const client = axios.create({
