@@ -11,6 +11,7 @@
     <p>Your account has been successfully verified, you can now log in.</p>
 
     <Button class="w-full" @click="router.push({ name: 'LoginIndex' })">Go to login page</Button>
+    <a class="underline text-sm cursor-pointer" @click="authService.logout()">Logout</a>
   </section>
   <section v-else class="text-center space-y-4 w-md">
     <h1 class="text-3xl font-medium">Verification link expired</h1>
@@ -26,6 +27,7 @@ import { useRoute, useRouter } from "vue-router";
 import { userService } from "@/services/userService";
 import { Button } from "@/components/ui/button";
 import { toast } from "vue-sonner";
+import { authService } from "@/services/auth/authService";
 
 type Status = "pending" | "success" | "expired";
 
