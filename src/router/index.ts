@@ -1,40 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 import { useUserStore } from "@/stores/userStore";
-import { userService } from "@/services/userService";
 
 const router = createRouter({ history: createWebHistory(), routes });
+
+async function init() {
+  const userStore = useUserStore();
+
+  const res = await userStore.fetchUser();
+
+  if (res?.errors?.message === "The email has not been verified yet.") {
+    router.push({
+      name: "EmailVerificationIndex",
+      query: { status: "pending" },
+    });
+  }
+}
 
 router.beforeEach(async (to) => {
   const userStore = useUserStore();
   const requiresAuth = to.meta.requiresAuth;
 
+  if (userStore.getUser() && !requiresAuth) {
+    return { name: "Index" };
+  }
+
   if (!userStore.getUser() && requiresAuth) {
-    const res = await userService.getCurrentUser();
-
-    if (res.errors?.message === "The email has not been verified yet.") {
-      return { name: "EmailVerificationIndex", query: { status: "pending" } };
-    }
-
-    if (res.ok && res.data) {
-      userStore.setUser(res.data);
-    } else {
-      userStore.clearUser();
-      return { name: "LoginIndex" };
-    }
-  }
-
-  const user = userStore.getUser();
-
-  if (user && !requiresAuth) {
-    return { name: "Index" };
-  }
-
-  if (user && to.name === "EmailVerificationIndex") {
-    return { name: "Index" };
-  }
-
-  if (!user && requiresAuth) {
     return { name: "LoginIndex" };
   }
 

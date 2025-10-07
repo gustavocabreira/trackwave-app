@@ -48,8 +48,10 @@ import { toast } from "vue-sonner";
 import Input from "@/components/ui/input/Input.vue";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const formSchema = toTypedSchema(
   z.object({
@@ -75,7 +77,11 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
     return;
   }
 
-  router.push({ name: "Index" });
+  const user = await userStore.fetchUser();
+
+  if (user.ok) {
+    router.push({ name: "Index" });
+  }
 });
 </script>
 

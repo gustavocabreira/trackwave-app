@@ -19,10 +19,6 @@ client.interceptors.response.use(
     return response;
   },
   async (err: any) => {
-    if (err.response && err.response.status === 401) {
-      await router.push({ name: "LoginIndex" });
-    }
-
     return Promise.reject(err);
   }
 );

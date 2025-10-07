@@ -1,8 +1,12 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { User } from "@/types/user";
+import { userService } from "@/services/userService";
+import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore("user", () => {
+  const router = useRouter();
+
   const user = ref<User | null>();
 
   function setUser(next: User) {
@@ -17,6 +21,25 @@ export const useUserStore = defineStore("user", () => {
     user.value = null;
   }
 
+  async function fetchUser() {
+    const res = await userService.getCurrentUser();
+
+    if (res?.errors?.message === "The email has not been verified yet.") {
+      router.push({
+        name: "EmailVerificationIndex",
+        query: { status: "pending" },
+      });
+    }
+
+    if (res.ok && res.data) {
+      user.value = res.data;
+    } else {
+      user.value = null;
+    }
+
+    return res;
+  }
+
   return {
     // state
     user,
@@ -25,5 +48,6 @@ export const useUserStore = defineStore("user", () => {
     setUser,
     getUser,
     clearUser,
+    fetchUser,
   };
 });

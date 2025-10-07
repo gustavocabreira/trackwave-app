@@ -1,22 +1,22 @@
 <template>
   <section v-if="status === 'pending'" class="text-center space-y-4 w-md">
-    <h1 class="text-3xl font-medium">Verifique seu e-mail</h1>
-    <div>
-      <p>Verifique sua caixa de entrada para encontrar o link de verificação.</p>
-      <p>Clique no link no e-mail para verificar sua conta.</p>
-    </div>
+    <h1 class="text-3xl font-medium">Verify your e-mail</h1>
+
+    <p>Verify your inbox to find the verification link. Click on the link to verify your account.</p>
+    <p>Didn't receive the e-mail?</p>
+    <Button @click="resendToken" class="w-full">Resend e-mail</Button>
   </section>
   <section v-else-if="status === 'success'" class="text-center space-y-4 w-md">
-    <h1 class="text-3xl font-medium">Bem-vindo!</h1>
-    <p>Seu e-mail foi verificado com sucesso, e agora você pode começar a usar a plataforma.</p>
+    <h1 class="text-3xl font-medium">Welcome!</h1>
+    <p>Your account has been successfully verified, you can now log in.</p>
 
-    <Button class="w-full" @click="router.push({ name: 'Index' })">Ir para a página inicial</Button>
+    <Button class="w-full" @click="router.push({ name: 'Index' })">Start onboarding</Button>
   </section>
   <section v-else class="text-center space-y-4 w-md">
-    <h1 class="text-3xl font-medium">Código de verificação expirado</h1>
-    <p>O código de verificação expirou. Por favor, solicite um novo código para continuar.</p>
+    <h1 class="text-3xl font-medium">Verification link expired</h1>
+    <p>The verification link has expired. Please request a new one before continuing.</p>
 
-    <Button @click="resendToken" class="w-full">Reenviar código</Button>
+    <Button @click="resendToken" class="w-full">Resend e-mail</Button>
   </section>
 </template>
 
