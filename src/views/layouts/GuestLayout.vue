@@ -4,19 +4,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useUserStore } from "@/stores/userStore";
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-
-const userStore = useUserStore();
-const router = useRouter();
-
-onMounted(() => {
-  // if (userStore.getUser()) {
-  //   router.push({ name: "Index" });
-  // }
-});
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss"></style>

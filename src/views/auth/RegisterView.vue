@@ -136,22 +136,22 @@ const onSubmit = form.handleSubmit(async (values: UserRegistration) => {
   login(values.email, values.password);
 });
 
-const login = async (email: string, password: string) => {
+async function login(email: string, password: string) {
   await authService.login({
     email,
     password,
   });
 
   router.push({ name: "Index" });
-};
+}
 
-const togglePassword = () => {
+function togglePassword() {
   showPassword.value.inputType = showPassword.value.inputType === "password" ? "text" : "password";
   showPassword.value.visible = !showPassword.value.visible;
-};
+}
 
-const toggleConfirmPassword = () => {
+function toggleConfirmPassword() {
   showConfirmPassword.value.inputType = showConfirmPassword.value.inputType === "password" ? "text" : "password";
   showConfirmPassword.value.visible = !showConfirmPassword.value.visible;
-};
+}
 </script>

@@ -8,6 +8,9 @@ export const userService = {
   async verifyEmail(token: string): Promise<ApiResponse<null>> {
     return await http.request<null>("POST", "/user/verify-email", { token });
   },
+  async resendVerificationEmail(): Promise<ApiResponse<null>> {
+    return await http.request<null>("POST", "/user/verify-email/resend");
+  },
   async refreshVerificationToken(token: string): Promise<ApiResponse<null>> {
     return await http.request<null>("POST", "/user/refresh-verification-token", { token });
   },

@@ -4,13 +4,13 @@
 
     <p>Verify your inbox to find the verification link. Click on the link to verify your account.</p>
     <p>Didn't receive the e-mail?</p>
-    <Button @click="resendToken" class="w-full">Resend e-mail</Button>
+    <Button @click="userService.resendVerificationEmail" class="w-full">Resend e-mail</Button>
   </section>
   <section v-else-if="status === 'success'" class="text-center space-y-4 w-md">
     <h1 class="text-3xl font-medium">Welcome!</h1>
     <p>Your account has been successfully verified, you can now log in.</p>
 
-    <Button class="w-full" @click="router.push({ name: 'Index' })">Start onboarding</Button>
+    <Button class="w-full" @click="router.push({ name: 'LoginIndex' })">Go to login page</Button>
   </section>
   <section v-else class="text-center space-y-4 w-md">
     <h1 class="text-3xl font-medium">Verification link expired</h1>
@@ -35,15 +35,15 @@ const router = useRouter();
 const token = route.query?.token as string;
 const status = ref<Status>((route.query?.status as Status) || "pending");
 
-const setQueryStatus = () => {
+function setQueryStatus() {
   router.replace({
     query: {
       status: status.value,
     },
   });
-};
+}
 
-const resendToken = async () => {
+async function resendToken() {
   if (!token) return;
 
   const res = await userService.refreshVerificationToken(token);
@@ -61,7 +61,7 @@ const resendToken = async () => {
       });
     }
   }
-};
+}
 
 onMounted(async () => {
   if (!token && !route.query?.status) {
@@ -82,6 +82,7 @@ onMounted(async () => {
         });
       }
 
+      console.log(res);
       if (res.status === 422) {
         status.value = "expired";
       }
