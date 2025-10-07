@@ -2,16 +2,16 @@ import { ApiResponse, http } from "@/services/http";
 import type { User } from "@/types/user";
 
 export const userService = {
-  async getCurrentUser(): Promise<ApiResponse<User>> {
+  async getCurrentUser() {
     return await http.request<User>("GET", "/me");
   },
-  async verifyEmail(token: string): Promise<ApiResponse<null>> {
+  async verifyEmail(token: string) {
     return await http.request<null>("POST", "/user/verify-email", { token });
   },
-  async resendVerificationEmail(): Promise<ApiResponse<null>> {
+  async resendVerificationEmail() {
     return await http.request<null>("POST", "/user/verify-email/resend");
   },
-  async refreshVerificationToken(token: string): Promise<ApiResponse<null>> {
+  async refreshVerificationToken(token: string) {
     return await http.request<null>("POST", "/user/refresh-verification-token", { token });
   },
 };
