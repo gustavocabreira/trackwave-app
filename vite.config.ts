@@ -21,6 +21,7 @@ export default defineConfig({
       '.localhost.com',
       '.trackwave.local',
       '.trackwave.dev',
+      '.trackwave.com'
     ]
   }
 })
