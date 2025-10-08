@@ -14,9 +14,32 @@ const app = createApp(App).use(pinia);
 async function init() {
   const userStore = useUserStore();
 
-  await userStore.fetchUser();
+  const res = await userStore.fetchUser();
 
   app.use(router);
+
+  if (res.status === 401 && window.location.pathname.includes("/verify-email")) {
+    router.push({
+      name: "LoginIndex",
+    });
+  }
+
+  if (res?.errors?.message === "The email has not been verified yet.") {
+    const url = new URL(window.location.href);
+    const token = url.searchParams.get("token");
+
+    if (token) {
+      router.push({
+        name: "EmailVerificationIndex",
+        query: { token },
+      });
+    } else {
+      router.push({
+        name: "EmailVerificationIndex",
+      });
+    }
+  }
+
   app.mount("#app");
 }
 

@@ -13,7 +13,7 @@ router.beforeEach(async (to) => {
     return { name: "Index" };
   }
 
-  if (!userStore.getUser() && requiresAuth) {
+  if (!userStore.getUser() && requiresAuth && to.name !== "EmailVerificationIndex") {
     return { name: "LoginIndex" };
   }
 

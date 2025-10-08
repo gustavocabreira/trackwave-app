@@ -76,6 +76,7 @@ import FormMessage from "@/components/ui/form/FormMessage.vue";
 import Input from "@/components/ui/input/Input.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Eye, EyeOff } from "lucide-vue-next";
+import { useUserStore } from "@/stores/userStore";
 
 type ShowPassword = {
   inputType: "password" | "text";
@@ -83,6 +84,7 @@ type ShowPassword = {
 };
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const showPassword = ref<ShowPassword>({
   inputType: "password",
@@ -133,7 +135,16 @@ const onSubmit = form.handleSubmit(async (values: UserRegistration) => {
     return;
   }
 
-  login(values.email, values.password);
+  await login(values.email, values.password);
+  const user = await userStore.fetchUser();
+
+  if (!user.ok) {
+    if (user?.errors?.message === "The email has not been verified yet.") {
+      return router.push({
+        name: "EmailVerificationIndex",
+      });
+    }
+  }
 });
 
 async function login(email: string, password: string) {
@@ -141,8 +152,6 @@ async function login(email: string, password: string) {
     email,
     password,
   });
-
-  router.push({ name: "Index" });
 }
 
 function togglePassword() {

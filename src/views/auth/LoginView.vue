@@ -79,7 +79,16 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
 
   const user = await userStore.fetchUser();
 
-  if (user.ok) {
+  if (!user.ok) {
+    if (user?.errors?.message === "The email has not been verified yet.") {
+      console.log("oiiiiii");
+      console.log(router.currentRoute.value);
+      router.push({
+        name: "EmailVerificationIndex",
+      });
+      return;
+    }
+
     router.push({ name: "Index" });
   }
 });
