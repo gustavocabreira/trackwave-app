@@ -2,7 +2,7 @@
   <section v-if="status === 'pending'" class="text-center space-y-4 w-md">
     <h1 class="text-3xl font-medium">Verify your e-mail</h1>
 
-    <p>Verify your inbox to find the verification link. Click on the link to verify your account.</p>
+    <p>Check your email inbox to see the verification link. Click on the button to verify your account.</p>
     <p>Didn't receive the e-mail?</p>
     <Button @click="userService.resendVerificationEmail" class="w-full">Resend e-mail</Button>
   </section>
@@ -84,7 +84,6 @@ onMounted(async () => {
         });
       }
 
-      console.log(res);
       if (res.status === 422) {
         status.value = "expired";
       }

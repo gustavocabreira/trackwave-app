@@ -2,7 +2,7 @@
   <section class="space-y-8 text-center">
     <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
-    <h1 class="text-3xl font-medium">Crie sua conta</h1>
+    <h1 class="text-3xl font-medium">Create an account</h1>
 
     <form @submit.prevent="onSubmit" class="space-y-4 w-md text-start">
       <FormField v-slot="{ componentField }" name="name">
