@@ -1,7 +1,9 @@
 import axios from "axios";
-import router from "@/router";
 
-export type ValidationErrors = Record<string, string[]>;
+export type ValidationErrors = {
+  message?: string;
+  [key: string]: string[] | string | undefined;
+};
 export type ApiResponse<T> = { ok: boolean; data: T | null; errors: ValidationErrors | null; status?: number };
 
 const client = axios.create({
@@ -19,10 +21,6 @@ client.interceptors.response.use(
     return response;
   },
   async (err: any) => {
-    if (err.response && err.response.status === 401) {
-      await router.push({ name: "LoginIndex" });
-    }
-
     return Promise.reject(err);
   }
 );
@@ -30,12 +28,13 @@ client.interceptors.response.use(
 export const http = {
   async request<T>(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", url: string, payload?: any): Promise<ApiResponse<T>> {
     try {
-      const { data } = await client.request({ method, url, data: payload });
+      const { data, status } = await client.request({ method, url, data: payload });
 
       return {
         ok: true,
         data,
         errors: null,
+        status,
       };
     } catch (error: any) {
       const errors = error?.response?.data ?? {
@@ -43,7 +42,7 @@ export const http = {
         errors: {},
       };
 
-      return { ok: false, data: null, errors, status: error.status };
+      return { ok: false, data: null, errors, status: error?.status };
     }
   },
 };

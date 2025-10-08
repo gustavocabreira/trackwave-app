@@ -19,11 +19,12 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-        proxy_set_header Cookie $http_cookie;
+        proxy_redirect off;
 
-        proxy_pass http://frontend:8080/;
+        proxy_pass http://frontend:8080;
     }
 }
 
@@ -43,10 +44,18 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-        proxy_set_header Cookie $http_cookie;
+        proxy_redirect off;
 
-        proxy_pass http://trackwave-api-laravel:9051/;
+        proxy_pass http://trackwave-api-laravel:9051;
     }
+}
+
+# Catch-all (último)
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
 }

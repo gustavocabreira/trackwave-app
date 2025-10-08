@@ -20,6 +20,7 @@ const logout = async () => {
     return;
   }
 
+  userStore.setUser(null);
   router.push({
     name: "LoginIndex",
   });

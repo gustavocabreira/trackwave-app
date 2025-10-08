@@ -1,6 +1,6 @@
 <template>
   <section class="space-y-8 text-center">
-    <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
+    <img src="@/assets/images/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
     <h1 class="text-3xl font-medium">Entrar</h1>
 
@@ -48,8 +48,10 @@ import { toast } from "vue-sonner";
 import Input from "@/components/ui/input/Input.vue";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const formSchema = toTypedSchema(
   z.object({
@@ -75,16 +77,28 @@ const onSubmit = form.handleSubmit(async (values: Login) => {
     return;
   }
 
-  router.push({ name: "Index" });
+  const user = await userStore.fetchUser();
+
+  if (!user.ok) {
+    if (user?.errors?.message === "The email has not been verified yet.") {
+      console.log("oiiiiii");
+      console.log(router.currentRoute.value);
+      router.push({
+        name: "EmailVerificationIndex",
+      });
+      return;
+    }
+
+    router.push({ name: "Index" });
+  }
 });
 
 const handleGoogleLogin = async () => {
   try {
     authService.loginWithGoogle();
     router.push({ name: "Index" });
-
   } catch (error) {
-    console.error('Falha no login com Google:', error);
+    console.error("Falha no login com Google:", error);
   }
 };
 </script>

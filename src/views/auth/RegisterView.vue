@@ -1,17 +1,8 @@
 <template>
-  <section v-if="verifyEmail" class="text-center space-y-4 w-md">
-    <h1 class="text-3xl font-medium">Verifique seu e-mail</h1>
-    <div>
-      <p>
-        Enviamos um e-mail de verificação para <b>{{ email }} </b>.
-      </p>
-      <p>Clique no link no e-mail para verificar sua conta.</p>
-    </div>
-  </section>
-  <section v-else class="space-y-8 text-center">
-    <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
+  <section class="space-y-8 text-center">
+    <img src="@/assets/images/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
-    <h1 class="text-3xl font-medium">Crie sua conta</h1>
+    <h1 class="text-3xl font-medium">Create an account</h1>
 
     <form @submit.prevent="onSubmit" class="space-y-4 w-md text-start">
       <FormField v-slot="{ componentField }" name="name">
@@ -85,6 +76,7 @@ import FormMessage from "@/components/ui/form/FormMessage.vue";
 import Input from "@/components/ui/input/Input.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Eye, EyeOff } from "lucide-vue-next";
+import { useUserStore } from "@/stores/userStore";
 
 type ShowPassword = {
   inputType: "password" | "text";
@@ -92,9 +84,8 @@ type ShowPassword = {
 };
 
 const router = useRouter();
+const userStore = useUserStore();
 
-const verifyEmail = ref<boolean>(false);
-const email = ref<string>("");
 const showPassword = ref<ShowPassword>({
   inputType: "password",
   visible: false,
@@ -144,17 +135,32 @@ const onSubmit = form.handleSubmit(async (values: UserRegistration) => {
     return;
   }
 
-  verifyEmail.value = true;
-  email.value = values.email;
+  await login(values.email, values.password);
+  const user = await userStore.fetchUser();
+
+  if (!user.ok) {
+    if (user?.errors?.message === "The email has not been verified yet.") {
+      return router.push({
+        name: "EmailVerificationIndex",
+      });
+    }
+  }
 });
 
-const togglePassword = () => {
+async function login(email: string, password: string) {
+  await authService.login({
+    email,
+    password,
+  });
+}
+
+function togglePassword() {
   showPassword.value.inputType = showPassword.value.inputType === "password" ? "text" : "password";
   showPassword.value.visible = !showPassword.value.visible;
-};
+}
 
-const toggleConfirmPassword = () => {
+function toggleConfirmPassword() {
   showConfirmPassword.value.inputType = showConfirmPassword.value.inputType === "password" ? "text" : "password";
   showConfirmPassword.value.visible = !showConfirmPassword.value.visible;
-};
+}
 </script>
