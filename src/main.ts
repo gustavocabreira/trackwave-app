@@ -9,13 +9,14 @@ import { useUserStore } from "./stores/userStore";
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
-const app = createApp(App).use(router).use(pinia);
+const app = createApp(App).use(pinia);
 
 async function init() {
   const userStore = useUserStore();
 
   await userStore.fetchUser();
 
+  app.use(router);
   app.mount("#app");
 }
 
