@@ -1,4 +1,4 @@
-import { ApiResponse, http } from "@/services/http";
+import { http } from "@/services/http";
 import type { User } from "@/types/user";
 
 export const userService = {
