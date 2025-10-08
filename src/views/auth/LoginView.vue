@@ -1,6 +1,6 @@
 <template>
   <section class="space-y-8 text-center">
-    <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
+    <img src="@/assets/images/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
     <h1 class="text-3xl font-medium">Entrar</h1>
 
@@ -88,9 +88,8 @@ const handleGoogleLogin = async () => {
   try {
     authService.loginWithGoogle();
     router.push({ name: "Index" });
-
   } catch (error) {
-    console.error('Falha no login com Google:', error);
+    console.error("Falha no login com Google:", error);
   }
 };
 </script>

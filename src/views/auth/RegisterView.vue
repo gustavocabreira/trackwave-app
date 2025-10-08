@@ -1,6 +1,6 @@
 <template>
   <section class="space-y-8 text-center">
-    <img src="/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
+    <img src="@/assets/images/temporary_logo.png" alt="Logo" class="w-24 h-16 mx-auto" />
 
     <h1 class="text-3xl font-medium">Create an account</h1>
 
